@@ -1,0 +1,17 @@
+---
+
+- hosts: sites
+  tasks:
+   - name: поле hostname в telegraf.conf 
+     replace:
+       path: /etc/telegraf/telegraf.conf
+       regexp: '^  hostname = "(.*)"$'
+       replace: '  hostname = ""'
+       backup: yes
+     become: true
+
+   - name: перезапуск службы telegraf
+     service:
+       name: telegraf
+       state: restarted
+     become: true
